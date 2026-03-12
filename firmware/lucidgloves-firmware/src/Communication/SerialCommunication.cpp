@@ -11,12 +11,13 @@ bool SerialCommunication::isOpen() {
 void SerialCommunication::start() {
     //Serial.setTimeout(1000000);
     Serial.begin(SERIAL_BAUD_RATE);
+    Serial.setTimeout(10);
     m_isOpen = true;
 }
 
 void SerialCommunication::output(char* data) {
     Serial.print(data);
-    Serial.flush();
+    Serial.flush(); // unsure
 }
 
 bool SerialCommunication::readData(char* input) {
