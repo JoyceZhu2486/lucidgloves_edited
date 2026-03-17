@@ -42,6 +42,7 @@ void Main::setup() {
   comm->start();
 
   input.setupInputs();
+  input.comm = comm;
 
   #if USING_FORCE_FEEDBACK
     haptics.setupServoHaptics();  
@@ -130,7 +131,7 @@ void Main::loop() {
 
     static char encodedString[100] = {0};
     encoding->encode(data, encodedString);
-    comm->output(encodedString);
+    // comm->output(encodedString);
     #if USING_FORCE_FEEDBACK
       static char received[100];
       if (comm->readData(received)){

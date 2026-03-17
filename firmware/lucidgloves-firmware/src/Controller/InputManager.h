@@ -3,7 +3,7 @@
 #include <EEPROM.h>
 #include "../../Config.h"
 #include "../../AdvancedConfig.h"
-
+#include "../Communication/ICommunication.h"
 
 #if (ENABLE_MEDIAN_FILTER || ((INTERFILTER_MODE != INTERFILTER_NONE) && (FLEXION_MIXING != MIXING_NONE)))
   #include <RunningMedian.h>
@@ -13,6 +13,7 @@ class InputManager
 {
 public:
     InputManager();
+    ICommunication* comm = nullptr;
     void setupInputs();
     int analogPinRead(int pin);
     #if USING_MULTIPLEXER
@@ -38,8 +39,11 @@ private:
     bool savedInter = false;
     bool savedTravel = false;
 
-    int maxFingers[2* NUM_FINGERS] = {0,0,0,0,0,0,0,0,0,0};
-    int minFingers[2* NUM_FINGERS] = {ANALOG_MAX, ANALOG_MAX, ANALOG_MAX, ANALOG_MAX, ANALOG_MAX, ANALOG_MAX, ANALOG_MAX, ANALOG_MAX, ANALOG_MAX, ANALOG_MAX};
+
+    int maxFingers[2*NUM_FINGERS] = {INT_MIN,INT_MIN,INT_MIN,INT_MIN,INT_MIN,
+                                      INT_MIN,INT_MIN,INT_MIN,INT_MIN,INT_MIN};
+    int minFingers[2*NUM_FINGERS] = {INT_MAX,INT_MAX,INT_MAX,INT_MAX,INT_MAX,
+                                      INT_MAX,INT_MAX,INT_MAX,INT_MAX,INT_MAX};
     int maxTravel[2*NUM_FINGERS] = {ANALOG_MAX, ANALOG_MAX, ANALOG_MAX, ANALOG_MAX, ANALOG_MAX, ANALOG_MAX, ANALOG_MAX, ANALOG_MAX, ANALOG_MAX, ANALOG_MAX};
     
     #if FLEXION_MIXING == MIXING_SINCOS

@@ -165,23 +165,17 @@ void InputManager::getFingerPositions(bool calibrating, bool reset, int* fingerP
         #endif
     }
   }
-  
-  // Serial.printf("raw T/I/M/R/P = %d %d %d %d %d\n",
-  // rawFingersFlexion[0], rawFingersFlexion[1], rawFingersFlexion[2], rawFingersFlexion[3], rawFingersFlexion[4]);
 
-  // --- DEBUG: stream raw ADC (Thumb->Pinky) for Python plotting ---
-  // Print at ~ (loop_rate / 10) Hz to avoid slowing the control loop too much.
-  static uint32_t raw_print_div = 0;
-  if ((raw_print_div++ % 10) == 0) {
-    Serial.printf("RAW,%lu,%d,%d,%d,%d,%d\n",
-                  millis(),
-                  rawFingersFlexion[0], // Thumb
-                  rawFingersFlexion[1], // Index
-                  rawFingersFlexion[2], // Middle
-                  rawFingersFlexion[3], // Ring
-                  rawFingersFlexion[4]  // Pinky
-    );
-  }
+  char rawBuf[60];
+  snprintf(rawBuf, sizeof(rawBuf), "RAW,%lu,%d,%d,%d,%d,%d\n",
+          millis(),
+          rawFingersFlexion[0],
+          rawFingersFlexion[1],
+          rawFingersFlexion[2],
+          rawFingersFlexion[3],
+          rawFingersFlexion[4]
+  );
+  if (comm) comm->output(rawBuf);
 
   for (int i = 0; i<NUM_FINGERS; i++){
     if (minFingers[i] != maxFingers[i]){

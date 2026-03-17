@@ -16,8 +16,8 @@ void SerialCommunication::start() {
 }
 
 void SerialCommunication::output(char* data) {
-    Serial.print(data);
-    Serial.flush(); // unsure
+    // Serial.print(data);
+    // Serial.flush(); // unsure
 }
 
 bool SerialCommunication::readData(char* input) {
