@@ -166,16 +166,22 @@ void InputManager::getFingerPositions(bool calibrating, bool reset, int* fingerP
     }
   }
 
-  char rawBuf[60];
-  snprintf(rawBuf, sizeof(rawBuf), "RAW,%lu,%d,%d,%d,%d,%d\n",
-          millis(),
-          rawFingersFlexion[0],
-          rawFingersFlexion[1],
-          rawFingersFlexion[2],
-          rawFingersFlexion[3],
-          rawFingersFlexion[4]
-  );
-  if (comm) comm->output(rawBuf);
+static uint32_t lastRawSendMs = 0;
+uint32_t nowMs = millis();
+if (nowMs - lastRawSendMs >= 200) {   // 5 Hz TX
+    lastRawSendMs = nowMs;
+    char rawBuf[60];
+    snprintf(rawBuf, sizeof(rawBuf), "RAW,%lu,%d,%d,%d,%d,%d\n",
+            nowMs,
+            rawFingersFlexion[0],
+            rawFingersFlexion[1],
+            rawFingersFlexion[2],
+            rawFingersFlexion[3],
+            rawFingersFlexion[4]
+    );
+    if (comm) comm->output(rawBuf);
+    Serial.print(rawBuf);
+}
 
   for (int i = 0; i<NUM_FINGERS; i++){
     if (minFingers[i] != maxFingers[i]){

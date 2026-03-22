@@ -133,26 +133,42 @@ void Main::loop() {
     encoding->encode(data, encodedString);
     // comm->output(encodedString);
     #if USING_FORCE_FEEDBACK
-      static char received[100];
-      if (comm->readData(received)){
-        int hapticLimits[5];
-        //This check is a temporary hack to fix an issue with haptics on v0.5 of the driver, will make it more snobby code later
-        if(String(received).length() >= 5) {
-           DecodedData recievedData = encoding->decodeData(received);
-           haptics.writeServoHaptics(recievedData.servoValues); 
-           if (recievedData.fields.specialCommandReceived){
-            Serial.println("Special command recieved!!!");
-              if (recievedData.command == "ClearData")
-                input.clearFlags();
-              #if FLEXION_MIXING == MIXING_SINCOS
-              else if (recievedData.command == "SaveInter")
-                input.saveIntermediate();
-              #endif
-              else if (recievedData.command == "SaveTravel")
-                input.saveTravel();
-           }
+        static char received[100];
+        if (comm->readData(received)){
+            if(String(received).length() >= 5) {
+                DecodedData recievedData = encoding->decodeData(received);
+
+                // Validate servo values before writing — clamp to safe range
+                bool valuesValid = true;
+                for (int i = 0; i < 5; i++) {
+                    if (recievedData.servoValues[i] < 0 || 
+                        recievedData.servoValues[i] > 1000) {
+                        valuesValid = false;
+                        break;
+                    }
+                }
+
+                if (valuesValid) {
+                    haptics.writeServoHaptics(recievedData.servoValues);
+                } else {
+                    #if BT_ECHO
+                    Serial.println("[haptics] Invalid servo values — skipping write");
+                    #endif
+                }
+
+                if (recievedData.fields.specialCommandReceived){
+                    Serial.println("Special command recieved!!!");
+                    if (recievedData.command == "ClearData")
+                        input.clearFlags();
+                    #if FLEXION_MIXING == MIXING_SINCOS
+                    else if (recievedData.command == "SaveInter")
+                        input.saveIntermediate();
+                    #endif
+                    else if (recievedData.command == "SaveTravel")
+                        input.saveTravel();
+                }
+            }
         }
-      }
     #endif
     #if defined(ESP32)
       vTaskDelay(LOOP_TIME);

@@ -80,11 +80,11 @@
   #define PIN_PNCH_BTN  23 //unused if gesture set
   #define PIN_CALIB     4 //button for recalibration (You can set this to GPIO0 to use the BOOT button, but only when using Bluetooth.)
   #define DEBUG_LED     2
-  #define PIN_PINKY_MOTOR     18
-  #define PIN_RING_MOTOR      19
+  #define PIN_PINKY_MOTOR     23
+  #define PIN_RING_MOTOR      22
   #define PIN_MIDDLE_MOTOR    21
-  #define PIN_INDEX_MOTOR     22
-  #define PIN_THUMB_MOTOR     23
+  #define PIN_INDEX_MOTOR     19
+  #define PIN_THUMB_MOTOR     18
   #define PIN_MENU_BTN        16
 
   //Splay pins. Only used for splay tracking gloves. Use MUX(pin) if you are using a multiplexer for it.

@@ -94,7 +94,7 @@ async def run():
         try:
             while True:
                 # Send haptic command to ESP32 (RX characteristic)
-                await client.write_gatt_char(NUS_RX_UUID, haptic_cmd, response=False)
+                await client.write_gatt_char(NUS_RX_UUID, haptic_cmd, response=True)
                 await asyncio.sleep(0.02)   # ~50 Hz send rate
         except KeyboardInterrupt:
             print("\nStopped by user.")
