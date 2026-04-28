@@ -65,11 +65,11 @@
 #if defined(ESP32)
   //(This configuration is for ESP32 DOIT V1 so make sure to change if you're on another board)
   //To use a pin on a multiplexer, use MUX(pin). So for example pin 15 on a mux would be MUX(15).
-  #define PIN_PINKY     39  // flexion ADC
-  #define PIN_RING      34  // flexion ADC
-  #define PIN_MIDDLE    35  // flexion ADC (input-only OK)
-  #define PIN_INDEX     32  // flexion ADC (input-only OK)
-  #define PIN_THUMB     33  // flexion ADC (VN = GPIO39, input-only OK)
+  #define PIN_PINKY     36  // flexion ADC
+  #define PIN_RING      39  // flexion ADC
+  #define PIN_MIDDLE    34  // flexion ADC
+  #define PIN_INDEX     35  // flexion ADC
+  #define PIN_THUMB     32  // flexion ADC
   #define PIN_JOY_X     33
   #define PIN_JOY_Y     25
   #define PIN_JOY_BTN   26
@@ -80,11 +80,11 @@
   #define PIN_PNCH_BTN  23 //unused if gesture set
   #define PIN_CALIB     4 //button for recalibration (You can set this to GPIO0 to use the BOOT button, but only when using Bluetooth.)
   #define DEBUG_LED     2
-  #define PIN_PINKY_MOTOR     23
-  #define PIN_RING_MOTOR      22
-  #define PIN_MIDDLE_MOTOR    21
-  #define PIN_INDEX_MOTOR     19
-  #define PIN_THUMB_MOTOR     18
+  #define PIN_THUMB_MOTOR     17  // D12 — thumb servo
+  #define PIN_INDEX_MOTOR     14  // D14 — index servo
+  #define PIN_MIDDLE_MOTOR    27  // D27 — middle servo
+  #define PIN_RING_MOTOR      26  // D26 — ring servo
+  #define PIN_PINKY_MOTOR     25  // D25 — pinky servo
   #define PIN_MENU_BTN        16
 
   //Splay pins. Only used for splay tracking gloves. Use MUX(pin) if you are using a multiplexer for it.
